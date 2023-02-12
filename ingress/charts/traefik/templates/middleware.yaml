@@ -6,12 +6,3 @@ metadata:
 spec:
   replacePath:
     path: /
----
-apiVersion: traefik.containo.us/v1alpha1
-kind: Middleware
-metadata:
-  name: replace-path
-  namespace: test
-spec:
-  replacePath:
-    path: /

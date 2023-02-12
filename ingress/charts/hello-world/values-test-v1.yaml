@@ -16,6 +16,7 @@ service:
   externalPort: 8080
 ingress:
   match: PathPrefix("/test/hello-world/v1")
+  targetNamespace: test
 
 resources: {}
   # We usually recommend not to specify default resources and to leave this as a conscious

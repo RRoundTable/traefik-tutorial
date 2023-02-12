@@ -11,3 +11,6 @@ traefik:
       expose: false
     web:
       expose: false
+  providers:
+    kubernetesCRD:
+      allowCrossNamespace: true
