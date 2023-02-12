@@ -2,14 +2,9 @@ traefik:
   deployment:
     replicas: 1
   ports:
-    hello-world-v1:
+    hello-world:
       port: 8080
       exposedPort: 8080
-      expose: true
-      protocol: TCP
-    hello-world-v2:
-      port: 8080
-      exposedPort: 8081
       expose: true
       protocol: TCP
     websecure:

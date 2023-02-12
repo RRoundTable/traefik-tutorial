@@ -1,0 +1,21 @@
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: {{ template "fullname" . }}
+  namespace: {{ .Release.Namespace }}
+  labels:
+    app: {{ template "name" . }}
+    chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+spec:
+  entryPoints:
+    - hello-world
+  routes:
+    - match: {{ .Values.ingress.match }}
+      kind: Rule
+      middlewares:
+        - name: replace-path
+      services:
+        - name: {{ template "fullname" . }}
+          port: 8080
