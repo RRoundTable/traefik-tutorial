@@ -17,4 +17,8 @@ tunnel:
 
 hello-world-v1:
 	minikube image build -t hello-world:v1 . --profile $(PROFILE_NAME)
-	helm install hello-world-v1 charts/hello-world-v1
+	helm install --values charts/hello-world/values-v1.yaml hello-world-v1 charts/hello-world
+
+hello-world-v2:
+	minikube image build -t hello-world:v2 . --profile $(PROFILE_NAME)
+	helm install -values charts/hello-world/values-v2.yaml hello-world-v2 charts/hello-world

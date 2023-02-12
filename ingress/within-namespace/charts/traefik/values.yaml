@@ -2,14 +2,14 @@ traefik:
   deployment:
     replicas: 1
   ports:
-    triton-http:
-      port: 18000
-      exposedPort: 8000
+    hello-world-v1:
+      port: 8080
+      exposedPort: 8080
       expose: true
       protocol: TCP
-    triton-grpc:
-      port: 18001
-      exposedPort: 8001
+    hello-world-v2:
+      port: 8080
+      exposedPort: 8081
       expose: true
       protocol: TCP
     websecure:
