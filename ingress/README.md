@@ -30,3 +30,9 @@ make hello-world-v1
 ```
 make hello-world-v2
 ```
+
+## Deploy hello-world-v1 to test namespace
+
+```
+make hello-world-v1
+```
