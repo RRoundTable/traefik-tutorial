@@ -4,6 +4,5 @@ traefik tutorial for K8s.
 
 ## Contents
 
-1. Ingress Control within the Same Namespaces.
+1. [Ingress Control](ingress) 
 
-2. Ingress Control over the Namespaces.
