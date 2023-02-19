@@ -26,7 +26,7 @@ mkdir certificates
 Generate private key and certificate for `example.com` subject.
 
 ```
-openssl req -x509 -sha256 -nodes -days 365 -newkey rsa:2048 -subj '/O=example Inc./CN=example.com' -keyout certificates/example.com.key -out certificates/example.com.crt
+openssl req -x510 -sha256 -nodes -days 365 -newkey rsa:2048 -subj '/O=example Inc./CN=example.com' -keyout certificates/example.com.key -out certificates/example.com.crt
 ```
 
 ```
@@ -42,7 +42,7 @@ certificates
 Generate a certificate sigining request for `hello-world.example.com`
 
 ```
-openssl req -out certificates/hello-world.example.com.csr -newkey rsa:2048 -nodes -keyout certificates.hello-world.example.com.key -subj "/CN=hello-world.example.com/0=hello-world organization"
+openssl req -out certificates/hello-world.example.com.csr -newkey rsa:2048 -nodes -keyout certificates/hello-world.example.com.key -subj "/CN=hello-world.example.com/O=hello-world organization"
 ```
 
 Sign a certificate signing request for `hello-world.example.com` with root certificate and private key.
@@ -61,14 +61,14 @@ certificates
 ├── example.com.crt
 ├── example.com.key
 ├── hello-world.example.com.crt
-└── hello-world.example.com.csr
-
+├── hello-world.example.com.csr
+└── hello-world.example.com.key
 ```
 
 Create `hello-world-cert` secret
 
 ```
-kubectl create secret generic hello-world-cert --from-file=certificates/example.com.crt --from-file certificates/example.com.key
+kubectl create secret generic hello-world-cert --from-file=tls.crt=certificates/hello-world.example.com.crt --from-file=tls.key=certificates/hello-world.example.com.key
 ```
 
 
@@ -79,4 +79,18 @@ Deploy traefik with middleware.
 ```
 make traefik
 ```
+
+## Deploy hello-world
+
+```
+make hello-world
+```
+
+
+## Check TLS
+
+```
+curl https://hello-world.example.com/hello-world -vi --cacert certificates/example.com.crt -HHost:hello-world.example.com --resolve "hello-world.example.com:443:127.0.0.1"
+```
+
 

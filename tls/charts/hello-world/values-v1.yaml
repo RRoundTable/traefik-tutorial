@@ -15,7 +15,7 @@ service:
   internalPort: 8080
   externalPort: 8080
 ingress:
-  match: PathPrefix("/hello-world.example.com")
+  match: PathPrefix("/")
   targetNamespace: default
 
 resources: {}

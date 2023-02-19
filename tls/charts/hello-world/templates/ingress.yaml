@@ -10,12 +10,12 @@ metadata:
     heritage: {{ .Release.Service }}
 spec:
   entryPoints:
-    - hello-world
+    - websecure
+  tls:
+    secretName: hello-world-cert
   routes:
     - match: {{ .Values.ingress.match }}
       kind: Rule
-      tls:
-        secretName: hello-world-cert
       middlewares:
           - name: replace-path
             namespace: default
