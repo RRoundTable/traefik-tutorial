@@ -4,8 +4,8 @@ This tutorial is for TLS with Traefik.
 
 ## Prerequisites
 
-- [Minikube]()
-- [Helm]()
+- [Minikube](https://minikube.sigs.k8s.io/docs/start/): v1.29.0
+- [Helm](https://helm.sh/docs/intro/install/): v3.9.2
 
 ## Setup
 
@@ -64,6 +64,13 @@ certificates
 └── hello-world.example.com.csr
 
 ```
+
+Create `hello-world-cert` secret
+
+```
+kubectl create secret generic hello-world-cert --from-file=certificates/example.com.crt --from-file certificates/example.com.key
+```
+
 
 ## Deploy traefik
 
