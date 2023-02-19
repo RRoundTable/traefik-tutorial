@@ -1,0 +1,10 @@
+traefik:
+  deployment:
+    replicas: 1
+  ports:
+    hello-world:
+      port: 8080
+      exposedPort: 8080
+      expose: true
+      protocol: TCP
+
