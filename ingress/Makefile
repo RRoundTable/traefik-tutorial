@@ -1,4 +1,4 @@
-PROFILE_NAME=traefik-ingress-within-namespace
+PROFILE_NAME=traefik-ingress
 
 cluster:
 	minikube start driver=docker --profile=$(PROFILE_NAME)

@@ -4,8 +4,8 @@ This tutorial is for ingress route within the same namespace and over the namesp
 
 ## Prerequisites
 
-- [Minikube]()
-- [Helm]()
+- [Minikube](https://minikube.sigs.k8s.io/docs/start/): v1.29.0
+- [Helm](https://helm.sh/docs/intro/install/): v3.9.2
 
 ## Setup
 
