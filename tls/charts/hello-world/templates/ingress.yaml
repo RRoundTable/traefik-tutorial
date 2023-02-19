@@ -1,0 +1,25 @@
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: {{ .Values.ingress.targetNamespace }}-{{ template "fullname" . }}
+  namespace: default
+  labels:
+    app: {{ template "name" . }}
+    chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+spec:
+  entryPoints:
+    - hello-world
+  routes:
+    - match: {{ .Values.ingress.match }}
+      kind: Rule
+      tls:
+        secretName: hello-world-cert
+      middlewares:
+          - name: replace-path
+            namespace: default
+      services:
+        - name: {{ template "fullname" . }}
+          namespace: {{ .Values.ingress.targetNamespace }}
+          port: 8080
