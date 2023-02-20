@@ -89,8 +89,21 @@ make hello-world
 
 ## Check TLS
 
+check tls with certificate.
+
 ```
 curl https://hello-world.example.com/hello-world -vi --cacert certificates/example.com.crt -HHost:hello-world.example.com --resolve "hello-world.example.com:443:127.0.0.1"
 ```
 
+Check redirect to https
+```
+curl --head http://hello-world.example.com 
+```
 
+```
+HTTP/1.1 308 Permanent Redirect
+Location: https://hello-world.example.com/
+Date: Mon, 20 Feb 2023 12:50:51 GMT
+Content-Length: 18
+Content-Type: text/plain; charset=utf-8
+```
