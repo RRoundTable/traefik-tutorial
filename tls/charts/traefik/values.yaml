@@ -7,4 +7,7 @@ traefik:
       exposedPort: 8080
       expose: true
       protocol: TCP
-
+  tlsStore:
+    default:
+      defaultCertificate:
+        secretName: hello-world-cert
