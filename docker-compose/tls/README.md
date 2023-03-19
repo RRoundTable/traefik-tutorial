@@ -12,130 +12,30 @@ Traefik creates, for each container, a corresponding service and router.
 
 ## Setup
 
+Create cert and key.
+
+```
+bash generate_cert.sh
+```
+
+Create  traefik and whoami service
+
 ```
 docker compose up
 ```
 
-## Router
-
-### Entrypoint
-
-EntryPoints are the network entry points into Traefik. They define the port which will receive the packets, and whether to listen for TCP or UDP.
-
-We can configure entrypoint of router. It means that router can receive the request from entrypoint. 
-
-For example, 
-```
-  whoami:
-    labels:
-      - "traefik.http.routers.whoami.entrypoints=web"
-```
-
-### PathPrefix
-
-Match request prefix path
+Add host `whoami.com` to `/etc/host`
 
 ```
-PathPrefix(`/whoami`)
-
-# Matching
-- /whoami/bench
-- /whoami
-
-# Not Matching
-- /whoami1
-- /who
+127.0.0.1   whoami.local 
 ```
-
-
-### ReplacePathRex
-
-Replace url with regex.
-
-
-For example,
-
-```
-  whoami:
-    labels:
-      - "traefik.http.middlewares.replacepathregex.replacepathregex.regex=^/whoami/(.*)"
-      - "traefik.http.middlewares.replacepathregex.replacepathregex.replacement=/$$2"
-```
-
-```
-request url                 in container
-
-http://127.0.0.1/whoami1 -> /
-http://127.0.0.1/whoami2 -> /
-
-http://127.0.0.1/whoami1/bench -> /bench
-```
-
 
 ## Test
 
-```
-curl 127.0.0.1/whoami
-```
-
-```
-Hostname: c18f0da817cf
-IP: 127.0.0.1
-IP: 172.19.0.2 # container ip
-RemoteAddr: 172.19.0.4:54160
-GET /whoami HTTP/1.1
-Host: 127.0.0.1
-User-Agent: curl/7.77.0
-Accept: */*
-Accept-Encoding: gzip
-X-Forwarded-For: 172.19.0.1
-X-Forwarded-Host: 127.0.0.1
-X-Forwarded-Port: 80
-X-Forwarded-Proto: http
-X-Forwarded-Server: 803884019f91
-X-Real-Ip: 172.19.0.1
-```
-
-```
-curl 127.0.0.1/whoami/bench
-```
-```
-1%
-```
-
-
-## Generate Certificate for TLS
-
-Create `certifiactes` directory.
-
-```
-mkdir certificates
-```
-
-```
-openssl req  -nodes -new -x509  -keyout certificates/whoami.local.key -out certificates/whoami.local.crt -config openssl.conf -days 365
-```
-
-Generate private key and certificate for `whoami.local` subject.
-
-
-```
-openssl req -x510 -sha256 -nodes -days 365 -newkey rsa:2048 -subj '/O=whoami.local Inc./CN=whoami.local' -keyout certificates/whoami.local.key -out certificates/whoami.local.crt
-```
-
-```
-tree certificates
-```
-
-```
-certificates
-├── whoami.local.crt
-└── whoami.local.key
-```
+Click http://whoami.local/
 
 
 ## Reference
 
 - https://doc.traefik.io/traefik/reference/dynamic-configuration/docker/
 - https://doc.traefik.io/traefik/routing/routers/#rule
-- https://doc.traefik.io/traefik/middlewares/http/replacepathregex/#regex
