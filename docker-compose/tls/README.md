@@ -47,13 +47,6 @@ PathPrefix(`/whoami`)
 - /who
 ```
 
-For example,
-
-```
-  whoami:
-    labels:
-      - "traefik.http.routers.whoami1.rule=PathPrefix(`/whoami`)"
-```
 
 ### ReplacePathRex
 
@@ -109,6 +102,38 @@ curl 127.0.0.1/whoami/bench
 ```
 1%
 ```
+
+
+## Generate Certificate for TLS
+
+Create `certifiactes` directory.
+
+```
+mkdir certificates
+```
+
+```
+openssl req  -nodes -new -x509  -keyout certificates/whoami.local.key -out certificates/whoami.local.crt -config openssl.conf -days 365
+```
+
+Generate private key and certificate for `whoami.local` subject.
+
+
+```
+openssl req -x510 -sha256 -nodes -days 365 -newkey rsa:2048 -subj '/O=whoami.local Inc./CN=whoami.local' -keyout certificates/whoami.local.key -out certificates/whoami.local.crt
+```
+
+```
+tree certificates
+```
+
+```
+certificates
+├── whoami.local.crt
+└── whoami.local.key
+```
+
+
 ## Reference
 
 - https://doc.traefik.io/traefik/reference/dynamic-configuration/docker/
