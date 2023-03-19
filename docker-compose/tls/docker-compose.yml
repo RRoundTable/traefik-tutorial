@@ -1,0 +1,29 @@
+version: "3.3"
+
+services:
+
+  traefik:
+    image: "traefik:v2.9"
+    container_name: "traefik"
+    command:
+      #- "--log.level=DEBUG"
+      - "--api.insecure=true"
+      - "--providers.docker=true"
+      # containers that do not have a traefik.enable=true label are ignored from the resulting routing configuration.
+      - "--providers.docker.exposedbydefault=false"
+      - "--entrypoints.web.address=:80"
+    ports:
+      - "80:80"
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+
+  whoami:
+    image: "traefik/whoami"
+    container_name: "simple-service"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.whoami.rule=PathPrefix(`/whoami`)"
+      - "traefik.http.routers.whoami.entrypoints=web"
+      - "traefik.http.middlewares.replacepathregex.replacepathregex.regex=^/whoami1/(.*)"
+      - "traefik.http.middlewares.replacepathregex.replacepathregex.replacement=/$$2"
+      - "traefik.http.routers.whoami1.middlewares=replacepathregex"
