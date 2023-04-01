@@ -7,15 +7,42 @@ services:
       # containers that do not have a traefik.enable=true label are ignored from the resulting routing configuration.
     ports:
       - "80:80"
+      - "8080:8080"
     volumes:
       - "/var/run/docker.sock:/var/run/docker.sock"
-      - "$PWD/traefik.yml:/etc/traefik/traefik.yml"
+      - "$PWD/traefik/traefik.yml:/etc/traefik/traefik.yml"
 
-  whoami:
-    image: "traefik/whoami"
-    container_name: "simple-service"
+  grafana:
+    image: grafana/grafana:latest
+    container_name: grafana
+    volumes:
+      - ./grafana:/etc/grafana/provisioning/
+      - grafana_data:/var/lib/grafana
     labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.whoami.rule=Host(`whoami.local`)"
-      - "traefik.http.routers.whoami.entrypoints=web"
-      - "traefik.http.services.whoami.loadbalancer.server.port=80"
+       - "traefik.http.routers.grafana.rule=Host(`grafana.localhost`)"
+       #- "traefik.http.routers.grafana.service=grafana"
+       - "traefik.http.services.grafana.loadbalancer.server.port=3000"
+    environment:
+      - GF_PATHS_PROVISIONING=/etc/grafana/provisioning
+      - GF_AUTH_ANONYMOUS_ENABLED=true
+      - GF_AUTH_ANONYMOUS_ORG_ROLE=Admin
+
+  prometheus:
+    image: prom/prometheus
+    container_name: prometheus
+    volumes:
+      - ./prometheus/:/etc/prometheus/
+      - prometheus_data:/prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yaml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--web.console.libraries=/usr/share/prometheus/console_libraries'
+      - '--web.console.templates=/usr/share/prometheus/consoles'
+    labels:
+       - "traefik.http.routers.prometheus.rule=Host(`prometheus.localhost`)"
+       - "traefik.http.routers.prometheus.service=prometheus"
+       - "traefik.http.services.prometheus.loadbalancer.server.port=9090"
+
+volumes:
+    prometheus_data: {}
+    grafana_data: {}

@@ -19,15 +19,15 @@ Create  traefik and whoami service and prometheus.
 docker compose up
 ```
 
-Add host `whoami.com` to `/etc/host`
+Add host `grafana.localhost` to `/etc/host`
 
 ```
-127.0.0.1   whoami.local 
+127.0.0.1   grafana.localhost 
 ```
 
 ## Test
 
-Click http://whoami.local/
+Click http://grafana.localhost
 
 
 ## Reference
