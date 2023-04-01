@@ -42,5 +42,4 @@ Click Explore
 
 ## Reference
 
-- https://doc.traefik.io/traefik/reference/dynamic-configuration/docker/
-- https://doc.traefik.io/traefik/routing/routers/#rule
+- https://github.com/vegasbrianc/docker-traefik-prometheus
