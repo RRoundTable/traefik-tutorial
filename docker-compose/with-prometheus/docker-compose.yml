@@ -19,9 +19,11 @@ services:
       - ./grafana:/etc/grafana/provisioning/
       - grafana_data:/var/lib/grafana
     labels:
-       - "traefik.http.routers.grafana.rule=Host(`grafana.localhost`)"
-       #- "traefik.http.routers.grafana.service=grafana"
-       - "traefik.http.services.grafana.loadbalancer.server.port=3000"
+      - "traefik.enable=true"
+      - "traefik.http.routers.grafana.rule=Host(`grafana.localhost`)"
+      - "traefik.http.routers.grafana.service=grafana"
+      - "traefik.http.services.grafana.loadbalancer.server.port=3000"
+      - "traefik.http.routers.grafana.entrypoints=web"
     environment:
       - GF_PATHS_PROVISIONING=/etc/grafana/provisioning
       - GF_AUTH_ANONYMOUS_ENABLED=true
@@ -39,9 +41,11 @@ services:
       - '--web.console.libraries=/usr/share/prometheus/console_libraries'
       - '--web.console.templates=/usr/share/prometheus/consoles'
     labels:
-       - "traefik.http.routers.prometheus.rule=Host(`prometheus.localhost`)"
-       - "traefik.http.routers.prometheus.service=prometheus"
-       - "traefik.http.services.prometheus.loadbalancer.server.port=9090"
+      - "traefik.enable=true"
+      - "traefik.http.routers.prometheus.rule=Host(`prometheus.localhost`)"
+      - "traefik.http.routers.prometheus.service=prometheus"
+      - "traefik.http.routers.prometheus.entrypoints=web"
+      - "traefik.http.services.prometheus.loadbalancer.server.port=9090"
 
 volumes:
     prometheus_data: {}

@@ -29,6 +29,15 @@ Add host `grafana.localhost` to `/etc/host`
 
 Click http://grafana.localhost
 
+ID: admin
+PW: foobar
+
+Click Explore
+
+
+
+
+
 
 ## Reference
 
